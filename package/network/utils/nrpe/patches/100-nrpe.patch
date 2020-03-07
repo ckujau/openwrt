@@ -1,0 +1,106 @@
+commit 51082e3f2e6c8419fbff4a35862c4bdc17af9519
+Author: Christian Kujau <lists@nerdbynature.de>
+Date:   Fri Mar 6 23:23:28 2020 -0800
+
+    In order to compile NRPE for OpenWRT we made the following adjustments:
+    
+    * Disable libwrap, as it's an unnecessary dependency and we really want
+      to get rid of TCP wrappers, see:
+      https://fedoraproject.org/wiki/Changes/Deprecate_TCP_wrappers
+    
+    * We don't want to mess with users & groups at this point in OpenWRT
+      so let's install as root. We need to set both NRPE_INSTALL_OPTS and
+      NAGIOS_INSTALL_OPTS even though we're only building nrpe. We can set
+      a more appropriate user/group later on in nrpe.cfg.
+    
+     configure | 61 ++-----------------------------------------------------------
+     1 file changed, 2 insertions(+), 59 deletions(-)
+    
+    Signed-off-by: Christian Kujau <lists@nerdbynature.de>
+
+diff --git a/configure b/configure
+index 0b9ab58..6e9ea46 100755
+--- a/configure
++++ b/configure
+@@ -7100,63 +7100,6 @@ if test "x$ac_cv_lib_socket_socket" = xyes; then :
+   SOCKETLIBS="$SOCKETLIBS -lsocket"
+ fi
+ 
+-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for main in -lwrap" >&5
+-$as_echo_n "checking for main in -lwrap... " >&6; }
+-if ${ac_cv_lib_wrap_main+:} false; then :
+-  $as_echo_n "(cached) " >&6
+-else
+-  ac_check_lib_save_LIBS=$LIBS
+-LIBS="-lwrap  $LIBS"
+-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+-/* end confdefs.h.  */
+-
+-
+-int
+-main ()
+-{
+-return main ();
+-  ;
+-  return 0;
+-}
+-_ACEOF
+-if ac_fn_c_try_link "$LINENO"; then :
+-  ac_cv_lib_wrap_main=yes
+-else
+-  ac_cv_lib_wrap_main=no
+-fi
+-rm -f core conftest.err conftest.$ac_objext \
+-    conftest$ac_exeext conftest.$ac_ext
+-LIBS=$ac_check_lib_save_LIBS
+-fi
+-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_wrap_main" >&5
+-$as_echo "$ac_cv_lib_wrap_main" >&6; }
+-if test "x$ac_cv_lib_wrap_main" = xyes; then :
+-
+-	LIBWRAPLIBS="$LIBWRAPLIBS -lwrap"
+-
+-$as_echo "#define HAVE_LIBWRAP 1" >>confdefs.h
+-
+-	cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+-/* end confdefs.h.  */
+-#include <tcpd.h>
+-
+-int
+-main ()
+-{
+-int a = rfc931_timeout;
+-  ;
+-  return 0;
+-}
+-_ACEOF
+-if ac_fn_c_try_link "$LINENO"; then :
+-  $as_echo "#define HAVE_RFC931_TIMEOUT 1" >>confdefs.h
+-
+-fi
+-rm -f core conftest.err conftest.$ac_objext \
+-    conftest$ac_exeext conftest.$ac_ext
+-
+-fi
+-
+ for ac_func in strdup strstr strtoul strtok_r initgroups closesocket sigaction scandir
+ do :
+   as_ac_var=`$as_echo "ac_cv_func_$ac_func" | $as_tr_sh`
+@@ -7773,7 +7716,7 @@ else
+   nrpe_port=5666
+ fi
+ 
+-NRPE_INSTALL_OPTS="-o $nrpe_user -g $nrpe_group"
++NRPE_INSTALL_OPTS=""
+ 
+ cat >>confdefs.h <<_ACEOF
+ #define DEFAULT_SERVER_PORT $nrpe_port
+@@ -7796,7 +7739,7 @@ else
+   nagios_group=nagios
+ fi
+ 
+-NAGIOS_INSTALL_OPTS="-o $nagios_user -g $nagios_group"
++NAGIOS_INSTALL_OPTS=""
+ 
+ 				if test "`uname -s`" = "HP-UX" ; then
+ 		LDFLAGS="$LDFLAGS -Wl,+allowdups";
