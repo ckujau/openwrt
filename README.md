@@ -96,7 +96,7 @@ $ tar -tvzf bin/packages/mips_24kc/base/nrpe*mips_24kc.ipk && \
 
 ## `monitoring-plugins`
 
-NRPE alone won't do much, let's install 
+[NRPE](#NRPE) alone won't do much, let's install 
 [monitoring-plugins](https://www.monitoring-plugins.org/) as well:
 
 ````
@@ -108,7 +108,7 @@ package/network/utils/monitoring-plugins/Makefile
 Generate a new `.config` and select either `m` or `y` for `monitoring-plugins`.
 
 ````
-$ make oldconfig
+make oldconfig
 ````
 
 Build with:
