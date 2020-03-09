@@ -24,7 +24,7 @@ Update feeds and generate a minimal configuration:
 ````
 ./scripts/feeds update  -a
 ./scripts/feeds install -a
- 
+
 make menuconfig
 ````
 
@@ -68,29 +68,29 @@ package/network/utils/nrpe/Makefile
 Generate a new `.config` and select either `m` or `y`:
 
 ````
- $ make oldconfig
- nrpe........... Nagios Remote Plugin Executor Server (PACKAGE_nrpe) [M/n/y/?] m
+$ make oldconfig
+nrpe........... Nagios Remote Plugin Executor Server (PACKAGE_nrpe) [M/n/y/?] m
 ````
 
 Build with:
 
 ````
- make -j$(nproc) package/nrpe/compile
- make -j$(nproc) package/nrpe/install
- make -j$(nproc) package/index
+make -j$(nproc) package/nrpe/compile
+make -j$(nproc) package/nrpe/install
+make -j$(nproc) package/index
 ````
 
 If all goes well, the ([stripped](https://blog.filippo.io/shrink-your-go-binaries-with-this-one-weird-trick/ "Shrink your Go binaries with this one weird trick"))
  binary and package will be available in our `build_dir`:
 
 ````
- $ tar -tvzf bin/packages/mips_24kc/base/nrpe*mips_24kc.ipk && \
-   ls -go build_dir/target-mips_24kc_musl/nrpe*/ipkg-mips_24kc/nrpe/usr/sbin/nrpe 
- -rw-r--r-- root/root         4 2020-01-29 08:05 ./debian-binary
- -rw-r--r-- root/root     21956 2020-01-29 08:05 ./data.tar.gz
- -rw-r--r-- root/root       588 2020-01-29 08:05 ./control.tar.gz
- 
- -rwxr-xr-x. 1 39445 Mar  7 12:48 build_dir/target-mips_24kc_musl/nrpe-4.0.0/ipkg-mips_24kc/nrpe/usr/sbin/nrpe
+$ tar -tvzf bin/packages/mips_24kc/base/nrpe*mips_24kc.ipk && \
+  ls -go build_dir/target-mips_24kc_musl/nrpe*/ipkg-mips_24kc/nrpe/usr/sbin/nrpe 
+-rw-r--r-- root/root         4 2020-01-29 08:05 ./debian-binary
+-rw-r--r-- root/root     21956 2020-01-29 08:05 ./data.tar.gz
+-rw-r--r-- root/root       588 2020-01-29 08:05 ./control.tar.gz
+
+-rwxr-xr-x. 1 39445 Mar  7 12:48 build_dir/target-mips_24kc_musl/nrpe-4.0.0/ipkg-mips_24kc/nrpe/usr/sbin/nrpe
 ````
 
 
@@ -108,29 +108,29 @@ package/network/utils/monitoring-plugins/Makefile
 Generate a new `.config` and select either `m` or `y` for `monitoring-plugins`.
 
 ````
- $ make oldconfig
+$ make oldconfig
 ````
 
 Build with:
 
 ````
- make -j$(nproc) package/monitoring-plugins/compile
- make -j$(nproc) package/monitoring-plugins/install
- make -j$(nproc) package/index
+make -j$(nproc) package/monitoring-plugins/compile
+make -j$(nproc) package/monitoring-plugins/install
+make -j$(nproc) package/index
 ````
 
 If all goes well, we should have something like this:
 
 ````
- $ tar -tvzf bin/packages/mips_24kc/base/monitoring-plugins*mips_24kc.ipk && \
-   ls -go build_dir/target-mips_24kc_musl/monitoring-plugins*/ipkg-mips_24kc/monitoring-plugins/usr/libexec/nagios/ | tail -5
- -rw-r--r-- root/root         4 2020-01-29 08:05 ./debian-binary
- -rw-r--r-- root/root    639426 2020-01-29 08:05 ./data.tar.gz
- -rw-r--r-- root/root       507 2020-01-29 08:05 ./control.tar.gz
- 
- -rwxr-xr-x. 1 33285 Mar  7 23:57 check_udp
- -rwxr-xr-x. 1 33029 Mar  7 23:57 check_ups
- -rwxr-xr-x. 1 24725 Mar  7 23:57 check_users
- -rwxr-xr-x. 1 28917 Mar  7 23:57 negate
- -rwxr-xr-x. 1 28805 Mar  7 23:57 urlize
+$ tar -tvzf bin/packages/mips_24kc/base/monitoring-plugins*mips_24kc.ipk && \
+  ls -go build_dir/target-mips_24kc_musl/monitoring-plugins*/ipkg-mips_24kc/monitoring-plugins/usr/libexec/nagios/ | tail -5
+-rw-r--r-- root/root         4 2020-01-29 08:05 ./debian-binary
+-rw-r--r-- root/root    639426 2020-01-29 08:05 ./data.tar.gz
+-rw-r--r-- root/root       507 2020-01-29 08:05 ./control.tar.gz
+
+-rwxr-xr-x. 1 33285 Mar  7 23:57 check_udp
+-rwxr-xr-x. 1 33029 Mar  7 23:57 check_ups
+-rwxr-xr-x. 1 24725 Mar  7 23:57 check_users
+-rwxr-xr-x. 1 28917 Mar  7 23:57 negate
+-rwxr-xr-x. 1 28805 Mar  7 23:57 urlize
 ````
